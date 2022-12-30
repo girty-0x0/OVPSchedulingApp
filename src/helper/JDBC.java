@@ -2,6 +2,7 @@ package helper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public abstract class JDBC {
     private static final String protocol = "jdbc";
@@ -14,17 +15,23 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
-    public static void openConnection()
+    public static Connection openConnection()
     {
         try {
             Class.forName(driver); // Locate Driver
             connection = DriverManager.getConnection(jdbcUrl, userName, password); // Reference Connection object
             System.out.println("Connection successful!");
         }
-        catch(Exception e)
+        catch(SQLException | ClassNotFoundException e)
         {
-            System.out.println("Error:" + e.getMessage());
+            e.printStackTrace(); //more elaborate error message in case issues arise
+
         }
+        return connection;
+    }
+
+    public static Connection getConnection(){
+        return connection; //prevents need to close and open connections often
     }
 
     public static void closeConnection() {
@@ -32,10 +39,9 @@ public abstract class JDBC {
             connection.close();
             System.out.println("Connection closed!");
         }
-        catch(Exception e)
-        {
-            System.out.println("Error:" + e.getMessage());
-        }
+        catch(Exception e) {
+            //silently catches error
+             }
     }
 
 }
