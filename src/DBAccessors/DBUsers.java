@@ -47,8 +47,28 @@ public abstract class DBUsers {
                 String uname = result.getString("User_Name");
                 String password = result.getString("Password");
 
-                Users user = new Users(id, username, password);
-                return user;
+                return new Users(id, uname, password);
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null; //returns null if no user matches
+    }
+
+    public static Users getUser(int userId) {
+
+        try {
+            String sql = "SELECT * FROM users WHERE User_ID=?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, userId);
+            ResultSet result = ps.executeQuery();
+            if (result.next()){
+                int id = result.getInt("User_ID");
+                String uname = result.getString("User_Name");
+                String password = result.getString("Password");
+
+                return new Users(id, uname, password);
             }
 
         } catch (SQLException throwables) {
@@ -57,3 +77,4 @@ public abstract class DBUsers {
         return null; //returns null if no user matches
     }
 }
+
