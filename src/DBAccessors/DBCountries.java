@@ -11,12 +11,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBCountries {
+
     public static ObservableList<Countries> getAllCountries(){
         ObservableList<Countries> countries = FXCollections.observableArrayList();
 
         try{
-            String statement = "SELECT * from countries";
-            PreparedStatement ps = JDBC.getConnection().prepareStatement(statement); //makes a connection and prepares the statement
+            String sql = "SELECT * from countries";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql); //makes a connection and prepares the statement
             ResultSet result = ps.executeQuery(); //set of results from a sql query
 
             while(result.next()){
