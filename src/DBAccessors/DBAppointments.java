@@ -2,15 +2,15 @@ package DBAccessors;
 
 import Model.Appointments;
 import helper.JDBC;
+import helper.TimeZConversion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.sql.Timestamp;
+import java.time.*;
 
 public abstract class DBAppointments {
     private static ZoneId utcZone = ZoneId.of("UTC");
@@ -76,5 +76,49 @@ public abstract class DBAppointments {
             throwables.printStackTrace();
         }
         return null;
+    }
+
+    public static int addAppointment(Appointments appt){
+        int customerId = appt.getCustomerId();
+        int userId = appt.getUserId();
+        int contactId = appt.getContactId();
+        String title = appt.getTitle();
+        String description = appt.getDescription();
+        String location = appt.getLocation();
+        String type = appt.getType();
+        LocalDateTime start;
+        LocalDateTime end;
+
+        LocalDate day = appt.getDay();
+        LocalTime startTime = appt.getStart();
+        LocalTime endTime = appt.getEnd();
+        //convert from LocalTime to DateTime
+        LocalDateTime startDT = LocalDateTime.of(day, startTime);
+        LocalDateTime endDT = LocalDateTime.of(day, endTime);
+        //convert from DateTime to ZonedDateTime
+        ZonedDateTime startZDT = ZonedDateTime.of(startDT, TimeZConversion.getLocalZone());
+        ZonedDateTime endZDT = ZonedDateTime.of(endDT, TimeZConversion.getLocalZone());
+        //convert from user's timezone to utc and then to DateTime for database storage
+        start = (TimeZConversion.localToUtc(startZDT)).toLocalDateTime();
+        end = (TimeZConversion.localToUtc(endZDT)).toLocalDateTime();
+
+        try{
+            String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setString(3, location);
+            ps.setString(4, type);
+            ps.setTimestamp(5, Timestamp.valueOf(start));
+            ps.setTimestamp(6, Timestamp.valueOf(end));
+            ps.setInt(7, customerId);
+            ps.setInt(8, userId);
+            ps.setInt(9, contactId);
+
+            return ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
     }
 }

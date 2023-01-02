@@ -2,9 +2,9 @@ package Model;
 
 public class Contacts {
 
-    int id;
-    String contactName;
-    String email;
+    private int id;
+    private String contactName;
+    private String email;
 
     public Contacts(int id, String contactName, String email){
         this.id = id;
@@ -24,4 +24,8 @@ public class Contacts {
         return email;
     }
 
+    @Override
+    public String toString(){
+        return (id + " (" + contactName + ")");
+    }
 }

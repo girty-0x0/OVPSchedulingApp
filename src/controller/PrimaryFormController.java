@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -143,8 +144,8 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionAddAppt(ActionEvent event) {
-
+    void onActionAddAppt(ActionEvent event) throws IOException {
+        Utilities.loadView("AppointmentsForm.fxml", event);
     }
 
     @FXML
@@ -211,8 +212,8 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionLogout(ActionEvent event) {
-
+    void onActionLogout(ActionEvent event) throws IOException {
+        Utilities.loadView("LoginForm.fxml", event);
     }
 
 }

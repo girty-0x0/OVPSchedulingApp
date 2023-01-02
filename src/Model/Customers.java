@@ -1,12 +1,12 @@
 package Model;
 
 public class Customers {
-    int id;
-    String name;
-    String address;
-    String postalCode;
-    String phone;
-    int firstLvlDivisionId;
+    private int id;
+    private String name;
+    private String address;
+    private String postalCode;
+    private String phone;
+    private int firstLvlDivisionId;
 
     public Customers(int id, String name, String address, String postalCode, String phone, int firstLvlDivisionId) {
         this.id = id;
@@ -63,5 +63,10 @@ public class Customers {
 
     public void setFirstLvlDivisionId(int firstLvlDivisionId) {
         this.firstLvlDivisionId = firstLvlDivisionId;
+    }
+
+    @Override
+    public String toString(){
+        return (id + " (" + name + ")");
     }
 }

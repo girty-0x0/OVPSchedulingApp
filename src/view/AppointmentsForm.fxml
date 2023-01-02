@@ -1,14 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.AppointmentsFormController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentsFormController">
+   <children>
+      <VBox alignment="TOP_RIGHT" layoutX="5.0" layoutY="5.0" prefHeight="580.0" prefWidth="590.0" spacing="10.0">
+         <children>
+            <Label prefHeight="35.0" prefWidth="575.0" text="Appointments">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Appointment ID" />
+                  <TextField fx:id="fieldId" disable="true" editable="false" promptText="Auto-generated ID" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="305.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Title" />
+                  <TextField fx:id="fieldTitle" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="323.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Description" />
+                  <TextField fx:id="fieldDescription" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="340.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Location" />
+                  <TextField fx:id="fieldLocation" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="358.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Type" />
+                  <TextField fx:id="fieldType" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Date" />
+                  <DatePicker fx:id="fieldDate" promptText="Pick a Date" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="375.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Start Time" />
+                  <ComboBox fx:id="comboStartHr" prefWidth="150.0" promptText="Hours" />
+                  <ComboBox fx:id="comboStartMin" prefWidth="150.0" promptText="Minutes" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="393.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="End Time" />
+                  <ComboBox fx:id="comboEndHr" prefWidth="150.0" promptText="Hours" />
+                  <ComboBox fx:id="comboEndMin" prefWidth="150.0" promptText="Minutes" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="410.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Customer ID" />
+                  <ComboBox fx:id="comboCustomerId" prefWidth="150.0" promptText="Select" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="428.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="User ID" />
+                  <ComboBox fx:id="comboUserId" prefWidth="150.0" promptText="Select" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="445.0" maxWidth="-Infinity" prefHeight="35.0" prefWidth="560.0" spacing="20.0">
+               <children>
+                  <Label maxWidth="-Infinity" prefWidth="90.0" text="Contact ID" />
+                  <ComboBox fx:id="comboContactId" prefWidth="150.0" promptText="Select" />
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="35.0" prefWidth="260.0" spacing="30.0">
+                     <children>
+                        <Button fx:id="cancelBtn" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionCancel" prefWidth="60.0" text="Cancel" />
+                        <Button fx:id="saveBtn" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionSave" prefWidth="60.0" text="Save" />
+                     </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets left="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </children>
 </AnchorPane>

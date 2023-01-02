@@ -1,9 +1,9 @@
 package Model;
 
 public class Users {
-    int id;
-    String userName;
-    String password;
+    private int id;
+    private String userName;
+    private String password;
 
     public Users(int id, String userName, String password) {
         this.id = id;
@@ -21,5 +21,10 @@ public class Users {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString(){
+        return (id + " (" + userName + ")");
     }
 }
