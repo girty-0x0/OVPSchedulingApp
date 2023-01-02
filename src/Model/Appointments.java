@@ -64,7 +64,7 @@ public class Appointments {
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(String type) {
