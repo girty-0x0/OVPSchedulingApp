@@ -2,7 +2,11 @@ package controller;
 
 import DBAccessors.DBAppointments;
 import DBAccessors.DBCustomers;
+import Model.Appointments;
+import helper.Utilities;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -109,12 +113,10 @@ public class PrimaryFormController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        modApptBtn.disableProperty().bind(Bindings.isEmpty(apptTbl.getSelectionModel().getSelectedItems())); //disables modify button by apptTbl until an appt is selected
-        delApptBtn.disableProperty().bind(Bindings.isEmpty(apptTbl.getSelectionModel().getSelectedItems()));
-        modCxBtn.disableProperty().bind(Bindings.isEmpty(cxTbl.getSelectionModel().getSelectedItems()));
-        delCxBtn.disableProperty().bind(Bindings.isEmpty(cxTbl.getSelectionModel().getSelectedItems()));
 
         cxTbl.setItems(DBCustomers.getAllCustomers());
+        apptTbl.setItems(DBAppointments.getAllAppointments());
+
         cxColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         cxColName.setCellValueFactory(new PropertyValueFactory<>("name"));
         cxColAddr.setCellValueFactory(new PropertyValueFactory<>("address"));
@@ -122,7 +124,6 @@ public class PrimaryFormController implements Initializable {
         cxColPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
         cxColDivisionId.setCellValueFactory(new PropertyValueFactory<>("firstLvlDivisionId"));
 
-        apptTbl.setItems(DBAppointments.getAllAppointments());
         apptColId.setCellValueFactory(new PropertyValueFactory<>("id"));
         apptColTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         apptColDesc.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -135,6 +136,10 @@ public class PrimaryFormController implements Initializable {
         apptColStartTime.setCellValueFactory(new PropertyValueFactory<>("start"));
         apptColDate.setCellValueFactory(new PropertyValueFactory<>("day"));
 
+        modApptBtn.disableProperty().bind(Bindings.isEmpty(apptTbl.getSelectionModel().getSelectedItems())); //disables modify button by apptTbl until an appt is selected
+        delApptBtn.disableProperty().bind(Bindings.isEmpty(apptTbl.getSelectionModel().getSelectedItems()));
+        modCxBtn.disableProperty().bind(Bindings.isEmpty(cxTbl.getSelectionModel().getSelectedItems()));
+        delCxBtn.disableProperty().bind(Bindings.isEmpty(cxTbl.getSelectionModel().getSelectedItems()));
     }
 
     @FXML
@@ -169,17 +174,35 @@ public class PrimaryFormController implements Initializable {
 
     @FXML
     void onActionMonthView(ActionEvent event) {
+        ObservableList<Appointments> apptView = FXCollections.observableArrayList();
+        ObservableList<Appointments> allAppts;
+        allAppts = DBAppointments.getAllAppointments();
 
+        for(Appointments appt : allAppts) {
+            if(Utilities.compareDates(1, appt.getDay())){
+                apptView.add(appt);
+            }
+        }
+        apptTbl.setItems((ObservableList) apptView);
     }
 
     @FXML
     void onActionWeekView(ActionEvent event) {
+        ObservableList<Appointments> apptView = FXCollections.observableArrayList();
+        ObservableList<Appointments> allAppts;
+        allAppts = DBAppointments.getAllAppointments();
 
+        for(Appointments appt : allAppts) {
+            if(Utilities.compareDates(2, appt.getDay())){
+                apptView.add(appt);
+            }
+        }
+        apptTbl.setItems((ObservableList) apptView);
     }
 
     @FXML
     void onActionAllView(ActionEvent event) {
-
+        apptTbl.setItems(DBAppointments.getAllAppointments());
     }
 
     @FXML

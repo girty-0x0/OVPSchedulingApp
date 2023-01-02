@@ -1,5 +1,8 @@
 package Model;
 
+import helper.TimeZConversion;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
@@ -10,7 +13,7 @@ public class Appointments {
     String description;
     String location;
     String type;
-    String day;
+    LocalDate day;
     LocalTime start; //tip: only collect one day and individual start times
     LocalTime end;
     int customerId;
@@ -23,9 +26,9 @@ public class Appointments {
         this.description = description;
         this.location = location;
         this.type = type;
-        this.start = start.toLocalTime();
-        this.end = end.toLocalTime();
-        this.day = start.toLocalDate().toString();
+        this.start = TimeZConversion.utcToLocal(start).toLocalTime(); //translates from utc time to local time zone's time for easy display
+        this.end = TimeZConversion.utcToLocal(end).toLocalTime(); //translates from utc time to local time zone's time
+        this.day = TimeZConversion.utcToLocal(start).toLocalDate(); //translates from utc date to local time zone's date
         this.customerId = customerId;
         this.userId = userId;
         this.contactId = contactId;
@@ -111,11 +114,11 @@ public class Appointments {
         this.contactId = contactId;
     }
 
-    public String getDay() {
+    public LocalDate getDay() {
         return day;
     }
 
-    public void setDay(String day) {
+    public void setDay(LocalDate day) {
         this.day = day;
     }
 }

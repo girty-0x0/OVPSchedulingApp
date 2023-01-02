@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -62,6 +63,23 @@ public abstract class Utilities {
         scene = FXMLLoader.load(Utilities.class.getResource("../view/"+form));
         stage.setScene(new Scene(scene));
         stage.show();
+    }
+    public static boolean compareDates(int frame, LocalDate apptDay){
+        LocalDate today = LocalDate.now();
+        LocalDate upperBound = null;
+
+        switch (frame){
+            case 1:
+                upperBound = LocalDate.now().plusMonths(1);
+                break;
+
+            case 2:
+                upperBound = LocalDate.now().plusWeeks(1);
+                break;
+        }
+
+        if((apptDay.isBefore(upperBound) || apptDay.isEqual(upperBound)) && (apptDay.isAfter(today) || apptDay.isEqual(today))) return true; //makes sure only dates within 1 month or one week are returned
+        return false;
     }
 
 }
