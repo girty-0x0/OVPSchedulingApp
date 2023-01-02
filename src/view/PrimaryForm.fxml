@@ -1,10 +1,128 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controller.PrimaryFormController"
-            prefHeight="400.0" prefWidth="600.0">
 
+<AnchorPane prefHeight="650.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PrimaryFormController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="272.0" layoutX="25.0" layoutY="25.0" stroke="#8d8d8d" strokeType="OUTSIDE" strokeWidth="3.0" width="947.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="272.0" layoutX="25.0" layoutY="300.0" stroke="#8d8d8d" strokeType="OUTSIDE" strokeWidth="3.0" width="947.0" />
+      <VBox layoutX="25.0" layoutY="25.0" prefHeight="550.0" prefWidth="950.0">
+         <children>
+            <HBox prefHeight="275.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="275.0" prefWidth="899.0">
+                     <children>
+                        <HBox alignment="CENTER" prefHeight="35.0" prefWidth="555.0" spacing="30.0">
+                           <children>
+                              <Label text="Appointments">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets right="515.0" />
+                                 </padding>
+                              </Label>
+                              <RadioButton fx:id="radioBtnMonth" mnemonicParsing="false" onAction="#onActionMonthView" text="Month">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="apptTblView" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="radioBtnWeek" mnemonicParsing="false" onAction="#onActionWeekView" text="Week" toggleGroup="$apptTblView" />
+                              <RadioButton fx:id="radioBtnAll" mnemonicParsing="false" onAction="#onActionAllView" selected="true" text="All" toggleGroup="$apptTblView" />
+                           </children>
+                        </HBox>
+                        <TableView fx:id="apptTbl" prefHeight="236.0" prefWidth="613.0">
+                          <columns>
+                            <TableColumn fx:id="apptColId" prefWidth="100.0" text="Appointment ID" />
+                            <TableColumn fx:id="apptColTitle" prefWidth="75.0" text="Title" />
+                              <TableColumn fx:id="apptColDesc" prefWidth="100.0" text="Description" />
+                              <TableColumn fx:id="apptColLocation" prefWidth="75.0" text="Location" />
+                              <TableColumn fx:id="apptColContact" prefWidth="75.0" text="Contact" />
+                              <TableColumn fx:id="apptColType" prefWidth="75.0" text="Type" />
+                              <TableColumn fx:id="apptColDate" prefWidth="75.0" text="Date" />
+                              <TableColumn fx:id="apptColStartTime" prefWidth="75.0" text="Start Time" />
+                              <TableColumn fx:id="apptColEndTime" prefWidth="75.0" text="End Time" />
+                              <TableColumn fx:id="apptColCustomerId" prefWidth="75.0" text="Customer ID" />
+                              <TableColumn fx:id="apptColUserId" prefWidth="75.0" text="User ID" />
+                          </columns>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="5.0" />
+                           </VBox.margin>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="addApptBtn" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionAddAppt" prefWidth="60.0" text="Add" />
+                        <Button fx:id="modApptBtn" layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionModAppt" prefWidth="60.0" text="Modify" />
+                        <Button fx:id="delApptBtn" layoutX="10.0" layoutY="35.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionDelAppt" prefWidth="60.0" text="Delete" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox layoutX="10.0" layoutY="10.0" prefHeight="275.0" prefWidth="200.0">
+               <children>
+                  <VBox prefHeight="275.0" prefWidth="899.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="555.0">
+                           <children>
+                              <Label text="Customers">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <padding>
+                                    <Insets left="3.0" />
+                                 </padding>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <TableView fx:id="cxTbl" prefHeight="236.0" prefWidth="613.0">
+                           <columns>
+                              <TableColumn fx:id="cxColId" prefWidth="100.0" text="Customer ID" />
+                              <TableColumn fx:id="cxColName" prefWidth="157.0" text="Customer Name" />
+                              <TableColumn fx:id="cxColAddr" prefWidth="257.0" text="Address" />
+                              <TableColumn fx:id="cxColPostal" minWidth="0.0" prefWidth="136.0" text="Postal Code" />
+                              <TableColumn fx:id="cxColPhone" prefWidth="136.0" text="Phone" />
+                              <TableColumn fx:id="cxColDivisionId" prefWidth="88.0" text="Division ID" />
+                           </columns>
+                           <VBox.margin>
+                              <Insets bottom="10.0" left="5.0" />
+                           </VBox.margin>
+                        </TableView>
+                     </children>
+                  </VBox>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                     <children>
+                        <Button fx:id="addCxBtn" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionAddCx" prefWidth="60.0" text="Add" />
+                        <Button fx:id="modCxBtn" layoutX="10.0" layoutY="10.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionModCx" prefWidth="60.0" text="Modify" />
+                        <Button fx:id="delCxBtn" layoutX="10.0" layoutY="35.0" maxWidth="-Infinity" mnemonicParsing="false" onAction="#onActionDelCx" prefWidth="60.0" text="Delete" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Button fx:id="reportsBtn" layoutX="738.0" layoutY="592.0" mnemonicParsing="false" onAction="#onActionViewReports" text="View Reports">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="logoutBtn" layoutX="913.0" layoutY="592.0" mnemonicParsing="false" onAction="#onActionLogout" text="Logout">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+   </children>
 </AnchorPane>

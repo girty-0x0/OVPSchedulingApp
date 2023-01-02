@@ -16,7 +16,7 @@ public abstract class DBUsers {
         ObservableList<Users> users = FXCollections.observableArrayList();
 
         try {
-            String sql = "SELECT * from users";
+            String sql = "SELECT * FROM users";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ResultSet result = ps.executeQuery();
 
