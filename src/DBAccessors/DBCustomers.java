@@ -1,7 +1,6 @@
 package DBAccessors;
 
 import Model.Customers;
-import Model.Users;
 import helper.JDBC;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

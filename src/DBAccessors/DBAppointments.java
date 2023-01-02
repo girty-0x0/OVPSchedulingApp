@@ -1,9 +1,7 @@
 package DBAccessors;
 
 import Model.Appointments;
-import Model.Customers;
 import helper.JDBC;
-import helper.TimeZConversion;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

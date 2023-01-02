@@ -1,6 +1,5 @@
 package DBAccessors;
 
-import Model.Countries;
 import Model.Users;
 import helper.JDBC;
 import javafx.collections.FXCollections;
