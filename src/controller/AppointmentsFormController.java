@@ -1,5 +1,6 @@
 package controller;
 
+import DBAccessors.DBContacts;
 import DBAccessors.DBCustomers;
 import DBAccessors.DBUsers;
 import helper.Utilities;
@@ -80,7 +81,7 @@ public class AppointmentsFormController implements Initializable {
         comboEndHr.setItems(hrs);
         comboEndMin.setItems(mins);
         comboCustomerId.setItems(DBCustomers.getAllCustomers());
-        //comboContactId.setItems(DBContacts.getAllContacts());
+        comboContactId.setItems(DBContacts.getAllContacts());
         comboUserId.setItems(DBUsers.getAllUsers());
     }
 
