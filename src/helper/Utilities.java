@@ -6,12 +6,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.Optional;
 
 public abstract class Utilities {
     private static Stage stage; //sets the primary stage
@@ -54,6 +56,21 @@ public abstract class Utilities {
         errAlert.showAndWait();
 
     };
+
+    public static AlertsInterface inform = contentText ->{
+
+        Alert errAlert = new Alert(Alert.AlertType.INFORMATION);
+        errAlert.setTitle("Notification Box");
+        errAlert.setContentText(contentText);
+        errAlert.showAndWait();
+    };
+
+    public static boolean confirmPopUp(String confirmationMsg){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, confirmationMsg);
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
 
     public static boolean isBetweenWorkingHours(LocalDateTime startDT, LocalDateTime endDT){
         return workingHoursLmbd.workingHoursCheck(startDT, endDT);

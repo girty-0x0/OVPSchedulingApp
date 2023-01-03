@@ -46,14 +46,14 @@ public abstract class DBAppointments {
         }
         return appointments;
     }
-    public static Appointments getAppointment(int appointmentId){
+    public static Appointments getAppointment(int appointmentId) {
         try {
             String sql = "SELECT * FROM appointments WHERE Appointment_ID=?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setInt(1, appointmentId);
             ResultSet result = ps.executeQuery();
 
-            if (result.next()){
+            if (result.next()) {
                 int id = result.getInt("Appointment_ID");
                 int customerId = result.getInt("Customer_ID");
                 int userId = result.getInt("User_ID");
@@ -69,7 +69,7 @@ public abstract class DBAppointments {
                 ZonedDateTime start = ZonedDateTime.of(startTmp, TimeZConversion.getLocalZone());
                 ZonedDateTime end = ZonedDateTime.of(endTmp, TimeZConversion.getLocalZone());
 
-                return new  Appointments(id, title, description, location, type, start, end, customerId, userId, contactId);
+                return new Appointments(id, title, description, location, type, start, end, customerId, userId, contactId);
             }
 
         } catch (SQLException throwables) {
@@ -78,7 +78,7 @@ public abstract class DBAppointments {
         return null;
     }
 
-    public static int addAppointment(Appointments appt){
+    public static int addAppointment (Appointments appt){
         int customerId = appt.getCustomerId();
         int userId = appt.getUserId();
         int contactId = appt.getContactId();
@@ -102,7 +102,7 @@ public abstract class DBAppointments {
         start = (TimeZConversion.localToUtc(startZDT)).toLocalDateTime();
         end = (TimeZConversion.localToUtc(endZDT)).toLocalDateTime();
 
-        try{
+        try {
             String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
             ps.setString(1, title);
@@ -114,6 +114,19 @@ public abstract class DBAppointments {
             ps.setInt(7, customerId);
             ps.setInt(8, userId);
             ps.setInt(9, contactId);
+
+            return ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int delAppointment(Appointments appt){
+        try {
+            String sql = "DELETE FROM appointments WHERE Appointment_ID=?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, appt.getId());
 
             return ps.executeUpdate();
         } catch (SQLException throwables) {

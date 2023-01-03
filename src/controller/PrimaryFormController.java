@@ -161,7 +161,19 @@ public class PrimaryFormController implements Initializable {
 
     @FXML
     void onActionDelAppt(ActionEvent event) {
+        String msg, infoMsg;
 
+        Appointments appt = apptTbl.getSelectionModel().getSelectedItem();
+        msg = "Are you sure you want to delete Appointment ID: " + appt.getId() + " Type: " + appt.getType();
+        infoMsg = "Appointment ID: " + appt.getId() + " Type: " + appt.getType() + " has been deleted.";
+        if(Utilities.confirmPopUp(msg)){
+            if(DBAppointments.delAppointment(appt) > 0){
+                if(radioBtnMonth.isSelected()) onActionMonthView(event);
+                else if(radioBtnWeek.isSelected()) onActionWeekView(event);
+                else onActionAllView(event);
+                Utilities.inform.alert(infoMsg);
+            }
+        }
     }
 
     @FXML
