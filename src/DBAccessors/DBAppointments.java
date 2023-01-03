@@ -15,7 +15,7 @@ import java.time.*;
 public abstract class DBAppointments {
     private static ZoneId utcZone = ZoneId.of("UTC");
 
-    public static ObservableList getAllAppointments() {
+    public static ObservableList<Appointments> getAllAppointments() {
         ObservableList<Appointments> appointments = FXCollections.observableArrayList();
 
         try {
@@ -32,11 +32,10 @@ public abstract class DBAppointments {
                 String location = result.getString("Location");
                 String type = result.getString("Type");
                 String title = result.getString("Title");
-                LocalDateTime startTmp = result.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime endTmp = result.getTimestamp("End").toLocalDateTime();
-
-                ZonedDateTime start = ZonedDateTime.of(startTmp, utcZone);
-                ZonedDateTime end = ZonedDateTime.of(endTmp, utcZone);
+                LocalDateTime startTmp = result.getTimestamp("Start").toInstant().atZone(TimeZConversion.getLocalZone()).toLocalDateTime();
+                LocalDateTime endTmp = result.getTimestamp("End").toInstant().atZone(TimeZConversion.getLocalZone()).toLocalDateTime();
+                ZonedDateTime start = ZonedDateTime.of(startTmp, TimeZConversion.getLocalZone());
+                ZonedDateTime end = ZonedDateTime.of(endTmp, TimeZConversion.getLocalZone());
 
                 Appointments appt = new Appointments(id, title, description, location, type, start, end, customerId, userId, contactId);
                 appointments.add(appt);
@@ -63,11 +62,12 @@ public abstract class DBAppointments {
                 String location = result.getString("Location");
                 String type = result.getString("Type");
                 String title = result.getString("Title");
-                LocalDateTime startTmp = result.getTimestamp("Start").toLocalDateTime();
-                LocalDateTime endTmp = result.getTimestamp("End").toLocalDateTime();
+                //.toLocalDateTime does implicit conversion; changed to .toInstant() to specify time zone conversion
+                LocalDateTime startTmp = result.getTimestamp("Start").toInstant().atZone(TimeZConversion.getLocalZone()).toLocalDateTime();
+                LocalDateTime endTmp = result.getTimestamp("End").toInstant().atZone(TimeZConversion.getLocalZone()).toLocalDateTime();
 
-                ZonedDateTime start = ZonedDateTime.of(startTmp, utcZone);
-                ZonedDateTime end = ZonedDateTime.of(endTmp, utcZone);
+                ZonedDateTime start = ZonedDateTime.of(startTmp, TimeZConversion.getLocalZone());
+                ZonedDateTime end = ZonedDateTime.of(endTmp, TimeZConversion.getLocalZone());
 
                 return new  Appointments(id, title, description, location, type, start, end, customerId, userId, contactId);
             }

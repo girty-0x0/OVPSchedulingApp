@@ -14,11 +14,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public abstract class Utilities {
-    static Stage stage; //sets the primary stage
-    static Parent scene; //sets the current scene
+    private static Stage stage; //sets the primary stage
+    private static Parent scene; //sets the current scene
 
     private static final LocalTime businessOpen = LocalTime.of(8,0);
     private static final LocalTime businessClose = LocalTime.of(22,0);
+
 
     private static final BusinessHoursInterface workingHoursLmbd = (startDT, endDT) -> {
         LocalTime startTime = startDT.toLocalTime();
@@ -66,20 +67,13 @@ public abstract class Utilities {
     }
     public static boolean compareDates(int frame, LocalDate apptDay){
         LocalDate today = LocalDate.now();
-        LocalDate upperBound = null;
+        LocalDate upperBound = switch (frame) {
+            case 1 -> LocalDate.now().plusMonths(1);
+            case 2 -> LocalDate.now().plusWeeks(1);
+            default -> null;
+        };
 
-        switch (frame){
-            case 1:
-                upperBound = LocalDate.now().plusMonths(1);
-                break;
-
-            case 2:
-                upperBound = LocalDate.now().plusWeeks(1);
-                break;
-        }
-
-        if((apptDay.isBefore(upperBound) || apptDay.isEqual(upperBound)) && (apptDay.isAfter(today) || apptDay.isEqual(today))) return true; //makes sure only dates within 1 month or one week are returned
-        return false;
+        return (apptDay.isBefore(upperBound) || apptDay.isEqual(upperBound)) && (apptDay.isAfter(today) || apptDay.isEqual(today)); //makes sure only dates within 1 month or one week are returned
     }
 
 }

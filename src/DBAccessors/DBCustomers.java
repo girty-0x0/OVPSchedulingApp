@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public abstract class DBCustomers {
 
-    public static ObservableList getAllCustomers() {
+    public static ObservableList<Customers> getAllCustomers() {
         ObservableList<Customers> customers = FXCollections.observableArrayList();
 
         try {

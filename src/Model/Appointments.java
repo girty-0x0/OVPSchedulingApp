@@ -25,9 +25,9 @@ public class Appointments {
         this.description = description;
         this.location = location;
         this.type = type;
-        this.start = TimeZConversion.utcToLocal(start).toLocalTime(); //translates from utc time to local time zone's time for easy display
-        this.end = TimeZConversion.utcToLocal(end).toLocalTime(); //translates from utc time to local time zone's time
-        this.day = TimeZConversion.utcToLocal(start).toLocalDate(); //translates from utc date to local time zone's date
+        this.start = start.toLocalTime(); //translates from utc time to local time zone's time for easy display
+        this.end = end.toLocalTime(); //translates from utc time to local time zone's time
+        this.day = start.toLocalDate(); //translates from utc date to local time zone's date
         this.customerId = customerId;
         this.userId = userId;
         this.contactId = contactId;

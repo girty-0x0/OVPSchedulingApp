@@ -3,21 +3,27 @@ package controller;
 import DBAccessors.DBAppointments;
 import DBAccessors.DBCustomers;
 import Model.Appointments;
+import Model.Customers;
 import helper.Utilities;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PrimaryFormController implements Initializable {
+    private static Stage stage; //sets the primary stage
 
     @FXML
     private Button addApptBtn;
@@ -59,7 +65,7 @@ public class PrimaryFormController implements Initializable {
     private TableColumn<?, ?> apptColUserId;
 
     @FXML
-    private TableView<?> apptTbl;
+    private TableView<Appointments> apptTbl;
 
     @FXML
     private ToggleGroup apptTblView;
@@ -83,7 +89,7 @@ public class PrimaryFormController implements Initializable {
     private TableColumn<?, ?> cxColPostal;
 
     @FXML
-    private TableView<?> cxTbl;
+    private TableView<Customers> cxTbl;
 
     @FXML
     private Button delApptBtn;
@@ -164,8 +170,18 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionModAppt(ActionEvent event) {
+    void onActionModAppt(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/AppointmentsForm.fxml"));
+        loader.load();
 
+        AppointmentsFormController apptForm = loader.getController();
+        apptForm.sendAppointment(apptTbl.getSelectionModel().getSelectedItem());
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow(); //stage is loaded with the Modify form in the next four lines; object's attributes are appropriately placed in their respective fields
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.showAndWait();
     }
 
     @FXML
@@ -184,7 +200,7 @@ public class PrimaryFormController implements Initializable {
                 apptView.add(appt);
             }
         }
-        apptTbl.setItems((ObservableList) apptView);
+        apptTbl.setItems(apptView);
     }
 
     @FXML
@@ -198,7 +214,7 @@ public class PrimaryFormController implements Initializable {
                 apptView.add(appt);
             }
         }
-        apptTbl.setItems((ObservableList) apptView);
+        apptTbl.setItems(apptView);
     }
 
     @FXML

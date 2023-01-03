@@ -11,12 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AppointmentsFormController">
    <children>
       <VBox alignment="TOP_RIGHT" layoutX="5.0" layoutY="5.0" prefHeight="580.0" prefWidth="590.0" spacing="10.0">
          <children>
-            <Label prefHeight="35.0" prefWidth="575.0" text="Appointments">
+            <Label fx:id="titleLbl" prefHeight="35.0" prefWidth="575.0" text="Appointments">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>

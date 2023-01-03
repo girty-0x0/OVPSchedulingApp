@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class DBFirstLvlDivisions {
 
-    public static ObservableList getCountryDivisions(int countryId) {
+    public static ObservableList<FirstLvlDivisions> getCountryDivisions(int countryId) {
 
         ObservableList<FirstLvlDivisions> divisions = FXCollections.observableArrayList();
 
