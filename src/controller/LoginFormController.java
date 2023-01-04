@@ -119,7 +119,7 @@ public class LoginFormController implements Initializable {
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 Parent scene = loader.getRoot();
                 stage.setScene(new Scene(scene));
-                stage.showAndWait();
+                stage.show(); //was show and wait
 
             } else{ //if no user was found or password is incorrect
                 pwVar.println("UNSUCCESSFUL LOGIN FOR USER: " + uname + " ON: " + utcZDT.toLocalDate() + " AT: " + utcZDT.toLocalTime() + " [UTC]");
