@@ -32,5 +32,21 @@ public class DBCountries {
         }
         return countries;
     }
+    public static Countries getCountry(int divisionID){
 
+        try{
+            String sql = "SELECT * from countries WHERE Country_ID=(SELECT Country_ID FROM first_level_divisions WHERE Division_ID=?)";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, divisionID);
+            ResultSet result = ps.executeQuery();
+
+            result.next();
+            int countryID = result.getInt("Country_ID");
+            String countryName = result.getString("Country");
+            return new Countries(countryID, countryName);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
 }
