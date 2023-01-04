@@ -7,19 +7,28 @@ import helper.Utilities;
 import helper.TimeZConversion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
+import java.sql.Time;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class LoginFormController implements Initializable {
     private static boolean isFrench;
+    private static Stage stage; //sets the primary stage
 
     private static ResourceBundle rb = ResourceBundle.getBundle("helper/loginForm", Locale.FRENCH);
 
@@ -87,15 +96,38 @@ public class LoginFormController implements Initializable {
             else Utilities.warning.alert("Please enter a password");
 
         } else{
+            FileWriter fwVar = new FileWriter("login_activity.txt", true);
+            PrintWriter pwVar = new PrintWriter(fwVar);
+            ZonedDateTime utcZDT = TimeZConversion.localToUtc(TimeZConversion.getCurrentZDT());
+
             Users user = DBUsers.getUser(uname);
 
             if(user != null) isPassword = user.getPassword().equals(passwd); //if one user is returned
             if(isPassword){
-                Utilities.loadView("PrimaryForm.fxml", event);
+                String uid = String.valueOf(user.getId());
+                pwVar.println("SUCCESSFUL LOGIN FOR USER: " + uname + " ID: " + uid + " ON: " + utcZDT.toLocalDate() + " AT: " + utcZDT.toLocalTime() + " [UTC]");
+                pwVar.close();
+                fwVar.close();
+
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("../view/PrimaryForm.fxml"));
+                loader.load();
+
+                PrimaryFormController primaryFormController = loader.getController();
+                primaryFormController.sendUsr(user);
+
+                stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                Parent scene = loader.getRoot();
+                stage.setScene(new Scene(scene));
+                stage.showAndWait();
+
             } else{ //if no user was found or password is incorrect
+                pwVar.println("UNSUCCESSFUL LOGIN FOR USER: " + uname + " ON: " + utcZDT.toLocalDate() + " AT: " + utcZDT.toLocalTime() + " [UTC]");
 
                 if(isFrench) Utilities.warningFR.alert(rb.getString("incorrect"));
                 else Utilities.warning.alert("Incorrect username or password");
+                pwVar.close();
+                fwVar.close();
             }
         }
     }

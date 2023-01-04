@@ -8,10 +8,10 @@ public abstract class TimeZConversion {
     private static final ZoneId utcZoneId = ZoneId.of("UTC");
     private static final ZoneId estZoneId = ZoneId.of("America/New_York");
 
-    public ZonedDateTime getCurrentZDT(){
+    public static ZonedDateTime getCurrentZDT(){
         return ZonedDateTime.now();
     }
-    public LocalDateTime getCurrentLDT(){
+    public static LocalDateTime getCurrentLDT(){
         return LocalDateTime.now();
     }
 

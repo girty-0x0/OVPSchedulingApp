@@ -217,7 +217,7 @@ public class AppointmentsFormController implements Initializable {
             //check if conflicting appointments exist
             Appointments conflictingAppt = Utilities.isConflicting(startZDT, endZDT, customerId, id);
             if(conflictingAppt != null){
-                Utilities.warning.alert("This appointment conflicts with Appointment ID: " + conflictingAppt.getId() + " scheduled on " + conflictingAppt.getDay() + " from " + conflictingAppt.getStart() + " to " + conflictingAppt.getEnd());
+                Utilities.warning.alert("This appointment conflicts with Appointment ID: " + conflictingAppt.getId() + " scheduled for " + conflictingAppt.getDay() + " from " + conflictingAppt.getStart() + " to " + conflictingAppt.getEnd());
                 break;
             }
             Appointments appt = new Appointments(id, title, description, location, type, startZDT, endZDT, customerId, userId, contactId);

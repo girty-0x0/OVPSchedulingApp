@@ -4,6 +4,8 @@ import DBAccessors.DBAppointments;
 import DBAccessors.DBCustomers;
 import Model.Appointments;
 import Model.Customers;
+import Model.Users;
+import helper.TimeZConversion;
 import helper.Utilities;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
@@ -20,6 +22,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 public class PrimaryFormController implements Initializable {
@@ -147,6 +150,23 @@ public class PrimaryFormController implements Initializable {
         delApptBtn.disableProperty().bind(Bindings.isEmpty(apptTbl.getSelectionModel().getSelectedItems()));
         modCxBtn.disableProperty().bind(Bindings.isEmpty(cxTbl.getSelectionModel().getSelectedItems()));
         delCxBtn.disableProperty().bind(Bindings.isEmpty(cxTbl.getSelectionModel().getSelectedItems()));
+    }
+
+    public void sendUsr(Users usr){
+        ZonedDateTime curZDT = TimeZConversion.getCurrentZDT();
+        boolean hasAppt = false;
+
+        for(Appointments appt : DBAppointments.getAllAppointments()){
+            if(usr.getId() == appt.getUserId()){
+                if(appt.getDay().isEqual(curZDT.toLocalDate())){
+                    if(curZDT.toLocalTime().isBefore(appt.getStart()) && curZDT.toLocalTime().isAfter(appt.getStart().minusMinutes(15))){
+                        Utilities.inform.alert("Your appointment (ID: " + appt.getId() + ") scheduled for " + appt.getDay() + " from " + appt.getStart() + " to " + appt.getEnd() + " starts in the next 15 minutes.");
+                        hasAppt = true;
+                    }
+                }
+            }
+        }
+        if(!hasAppt) Utilities.inform.alert("You have no upcoming appointments in the next 15 minutes.");
     }
 
     @FXML
