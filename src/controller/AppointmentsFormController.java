@@ -1,5 +1,6 @@
 package controller;
 
+import DBAccessors.DBAppointments;
 import DBAccessors.DBContacts;
 import DBAccessors.DBCustomers;
 import DBAccessors.DBUsers;
@@ -7,6 +8,7 @@ import Model.Appointments;
 import Model.Contacts;
 import Model.Customers;
 import Model.Users;
+import helper.TimeZConversion;
 import helper.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,6 +19,10 @@ import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
 public class AppointmentsFormController implements Initializable {
@@ -122,9 +128,111 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    void onActionSave(ActionEvent event) {
+    void onActionSave(ActionEvent event) throws IOException {
         //make sure to use id -1 when making a new Appointments object unless updating one
+        boolean hasError = false;
+        boolean isMod = false;
+        int startMin, startHr, endMin, endHr;
+        int customerId, contactId, userId;
+        int id = -1;
+        LocalDate day;
+        LocalTime startTime, endTime;
+        String title, description, location, type;
 
+        if(titleLbl.getText().contains("Modify")) {
+            isMod = true;
+            id = Integer.parseInt(fieldId.getText());
+        }
+
+        for(int i = 0; i<1; i++){
+
+            if(comboStartHr.getValue() == null){
+                Utilities.warning.alert("Please choose a starting hour.");
+                break;
+            } else if(comboStartMin.getValue() == null){
+                Utilities.warning.alert("Please choose a starting minute.");
+                break;
+            } else if(comboEndHr.getValue() == null){
+                Utilities.warning.alert("Please choose an ending hour.");
+                break;
+            } else if(comboEndMin.getValue() == null){
+                Utilities.warning.alert("Please choose an ending minute.");
+                break;
+            } else if(comboUserId.getValue() == null){
+                Utilities.warning.alert("Please choose a User ID.");
+                break;
+            } else if(comboContactId.getValue() == null){
+                Utilities.warning.alert("Please choose a Contact ID.");
+                break;
+            } else if(comboCustomerId.getValue() == null){
+                Utilities.warning.alert("Please choose a Customer ID.");
+                break;
+            } else if(fieldDate.getValue() == null){
+                Utilities.warning.alert("Please select a Date for the appointment.");
+                break;
+            } else if(fieldTitle.getText().isEmpty()){
+                Utilities.warning.alert("Please type a Title for the Appointment");
+                break;
+            } else if(fieldType.getText().isEmpty()){
+                Utilities.warning.alert("Please type a Type for the Appointment");
+                break;
+            } else if(fieldLocation.getText().isEmpty()){
+                Utilities.warning.alert("Please type a Location for the Appointment");
+                break;
+            } else if(fieldDescription.getText().isEmpty()){
+                Utilities.warning.alert("Please type a Description for the Appointment");
+                break;
+            }
+            userId = comboUserId.getValue().getId();
+            customerId = comboCustomerId.getValue().getId();
+            contactId = comboContactId.getValue().getId();
+
+            startHr = comboStartHr.getValue();
+            startMin = comboStartMin.getValue();
+            endHr = comboEndHr.getValue();
+            endMin = comboEndMin.getValue();
+
+            title = fieldTitle.getText();
+            description = fieldDescription.getText();
+            location = fieldLocation.getText();
+            type = fieldType.getText();
+
+            startTime = LocalTime.of(startHr, startMin);
+            endTime = LocalTime.of(endHr, endMin);
+            day = fieldDate.getValue();
+            ZonedDateTime startZDT = ZonedDateTime.of((LocalDateTime.of(day, startTime)), TimeZConversion.getLocalZone());
+            ZonedDateTime endZDT = ZonedDateTime.of((LocalDateTime.of(day, endTime)), TimeZConversion.getLocalZone());
+
+            //check starting hour is before end hour
+            if(startZDT.isAfter(endZDT)){
+                Utilities.warning.alert("The starting time must be before the ending time.");
+                break;
+            }
+            //check if between working hours
+            if(!(Utilities.isBetweenWorkingHours(startZDT, endZDT))){
+                ZonedDateTime[] timeArr = Utilities.getWorkingLZDT(day);
+                Utilities.warning.alert("Please make sure to schedule between our working hours: " + timeArr[0].toLocalTime() + "-" + timeArr[1].toLocalTime());
+                break;
+            }
+            //check if conflicting appointments exist
+            Appointments conflictingAppt = Utilities.isConflicting(startZDT, endZDT, customerId, id);
+            if(conflictingAppt != null){
+                Utilities.warning.alert("This appointment conflicts with Appointment ID: " + conflictingAppt.getId() + " scheduled on " + conflictingAppt.getDay() + " from " + conflictingAppt.getStart() + " to " + conflictingAppt.getEnd());
+                break;
+            }
+            Appointments appt = new Appointments(id, title, description, location, type, startZDT, endZDT, customerId, userId, contactId);
+            if(isMod){
+                if(!(DBAppointments.modAppointment(appt) > 0)){ //if no rows were updated
+                    Utilities.error.alert("There was an error updating this Appointment.");
+                    break;
+                }
+            } else{
+                if(!(DBAppointments.addAppointment(appt) > 0)){ //if no rows were updated
+                    Utilities.error.alert("There was an error adding this Appointment.");
+                    break;
+                }
+            }
+            Utilities.loadView("PrimaryForm.fxml", event);
+        }
     }
-
 }

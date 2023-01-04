@@ -86,8 +86,6 @@ public abstract class DBAppointments {
         String description = appt.getDescription();
         String location = appt.getLocation();
         String type = appt.getType();
-        LocalDateTime start;
-        LocalDateTime end;
 
         LocalDate day = appt.getDay();
         LocalTime startTime = appt.getStart();
@@ -95,12 +93,6 @@ public abstract class DBAppointments {
         //convert from LocalTime to DateTime
         LocalDateTime startDT = LocalDateTime.of(day, startTime);
         LocalDateTime endDT = LocalDateTime.of(day, endTime);
-        //convert from DateTime to ZonedDateTime
-        ZonedDateTime startZDT = ZonedDateTime.of(startDT, TimeZConversion.getLocalZone());
-        ZonedDateTime endZDT = ZonedDateTime.of(endDT, TimeZConversion.getLocalZone());
-        //convert from user's timezone to utc and then to DateTime for database storage
-        start = (TimeZConversion.localToUtc(startZDT)).toLocalDateTime();
-        end = (TimeZConversion.localToUtc(endZDT)).toLocalDateTime();
 
         try {
             String sql = "INSERT INTO appointments (Title, Description, Location, Type, Start, End, Customer_ID, User_ID, Contact_ID) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -109,11 +101,49 @@ public abstract class DBAppointments {
             ps.setString(2, description);
             ps.setString(3, location);
             ps.setString(4, type);
-            ps.setTimestamp(5, Timestamp.valueOf(start));
-            ps.setTimestamp(6, Timestamp.valueOf(end));
+            ps.setTimestamp(5, Timestamp.valueOf(startDT));
+            ps.setTimestamp(6, Timestamp.valueOf(endDT));
             ps.setInt(7, customerId);
             ps.setInt(8, userId);
             ps.setInt(9, contactId);
+
+            return ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int modAppointment (Appointments appt){
+        int id = appt.getId();
+        int customerId = appt.getCustomerId();
+        int userId = appt.getUserId();
+        int contactId = appt.getContactId();
+        String title = appt.getTitle();
+        String description = appt.getDescription();
+        String location = appt.getLocation();
+        String type = appt.getType();
+
+        LocalDate day = appt.getDay();
+        LocalTime startTime = appt.getStart();
+        LocalTime endTime = appt.getEnd();
+        //convert from LocalTime to DateTime
+        LocalDateTime startDT = LocalDateTime.of(day, startTime);
+        LocalDateTime endDT = LocalDateTime.of(day, endTime);
+
+        try {
+            String sql = "UPDATE appointments SET Title=?, Description=?, Location=?, Type=?, Start=?, End=?, Customer_ID=?, User_ID=?, Contact_ID=? WHERE Appointment_ID=?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, title);
+            ps.setString(2, description);
+            ps.setString(3, location);
+            ps.setString(4, type);
+            ps.setTimestamp(5, Timestamp.valueOf(startDT));
+            ps.setTimestamp(6, Timestamp.valueOf(endDT));
+            ps.setInt(7, customerId);
+            ps.setInt(8, userId);
+            ps.setInt(9, contactId);
+            ps.setInt(10, id);
 
             return ps.executeUpdate();
         } catch (SQLException throwables) {

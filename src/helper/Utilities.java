@@ -1,5 +1,7 @@
 package helper;
 
+import DBAccessors.DBAppointments;
+import Model.Appointments;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.Optional;
 
 public abstract class Utilities {
@@ -23,11 +26,13 @@ public abstract class Utilities {
     private static final LocalTime businessClose = LocalTime.of(22,0);
 
 
-    private static final BusinessHoursInterface workingHoursLmbd = (startDT, endDT) -> {
-        LocalTime startTime = startDT.toLocalTime();
-        LocalTime endTime = endDT.toLocalTime();
+    private static final BusinessHoursInterface workingHoursLmbd = (startZDT, endZDT) -> {
+        ZonedDateTime estStart = TimeZConversion.localToEst(startZDT); //converts normal times to est for return comparison
+        ZonedDateTime estEnd = TimeZConversion.localToEst(endZDT);
+        LocalTime startTime = estStart.toLocalTime();
+        LocalTime endTime = estEnd.toLocalTime();
 
-        return (startTime.compareTo(businessOpen) >= 0 && endTime.compareTo(businessClose) < 0); //compareTo gives 0 if equal and pos number if greater time than parameter
+        return (startTime.compareTo(businessOpen) >= 0 && endTime.compareTo(businessClose) <= 0); //compareTo gives 0 if equal and pos number if greater time than parameter
     };
 
     public static AlertsInterface warning = contentText ->{
@@ -72,8 +77,20 @@ public abstract class Utilities {
     }
 
 
-    public static boolean isBetweenWorkingHours(LocalDateTime startDT, LocalDateTime endDT){
-        return workingHoursLmbd.workingHoursCheck(startDT, endDT);
+    public static boolean isBetweenWorkingHours(ZonedDateTime startZDT, ZonedDateTime endZDT){
+        return workingHoursLmbd.workingHoursCheck(startZDT, endZDT);
+    }
+
+    public static ZonedDateTime[] getWorkingLZDT(LocalDate comparingDay){
+
+        LocalDateTime openDT = LocalDateTime.of(comparingDay, businessOpen);
+        LocalDateTime closeDT = LocalDateTime.of(comparingDay, businessClose);
+        ZonedDateTime estOpenTime = ZonedDateTime.of(openDT, TimeZConversion.getEstZone());
+        ZonedDateTime estCloseTime = ZonedDateTime.of(closeDT, TimeZConversion.getEstZone());
+        ZonedDateTime usrOpen = TimeZConversion.estToLocal(estOpenTime);
+        ZonedDateTime usrClose = TimeZConversion.estToLocal(estCloseTime);
+
+        return new ZonedDateTime[]{usrOpen, usrClose};
     }
 
     public static void loadView(String form, ActionEvent event) throws IOException {
@@ -91,6 +108,19 @@ public abstract class Utilities {
         };
 
         return (apptDay.isBefore(upperBound) || apptDay.isEqual(upperBound)) && (apptDay.isAfter(today) || apptDay.isEqual(today)); //makes sure only dates within 1 month or one week are returned
+    }
+
+    public static Appointments isConflicting(ZonedDateTime startZDT, ZonedDateTime endZDT, int customerID, int apptID){
+        ZonedDateTime tmpStart, tmpEnd;
+        for(Appointments appt : DBAppointments.getAllAppointments()){
+            if(appt.getCustomerId() == customerID && appt.getId() != apptID){
+                tmpStart = ZonedDateTime.of(LocalDateTime.of(appt.getDay(), appt.getStart()), TimeZConversion.getLocalZone());
+                tmpEnd = ZonedDateTime.of(LocalDateTime.of(appt.getDay(), appt.getEnd()), TimeZConversion.getLocalZone());
+
+                if(!((startZDT.isAfter(tmpStart) && endZDT.isAfter(tmpEnd) && startZDT.isAfter(tmpEnd) && endZDT.isAfter(tmpStart)) || (startZDT.isBefore(tmpStart) && endZDT.isBefore(tmpEnd) && startZDT.isBefore(tmpEnd) && endZDT.isBefore(tmpStart)))) return appt; //appt is returned when at least one appointment conflicts
+            }
+        }
+        return null; //null is returned when no conflicting appointments are made
     }
 
 }

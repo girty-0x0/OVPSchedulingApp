@@ -243,5 +243,4 @@ public class PrimaryFormController implements Initializable {
     void onActionLogout(ActionEvent event) throws IOException {
         Utilities.loadView("LoginForm.fxml", event);
     }
-
 }
