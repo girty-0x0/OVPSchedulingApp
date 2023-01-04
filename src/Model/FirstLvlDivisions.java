@@ -22,4 +22,9 @@ public class FirstLvlDivisions {
     public int getCountryId() {
         return countryId;
     }
+
+    @Override
+    public String toString(){
+        return name + " (ID: " + id + ")";
+    }
 }

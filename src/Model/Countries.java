@@ -18,4 +18,7 @@ public class Countries {
         return name;
     }
 
+    public String toString(){
+        return name;
+    }
 }

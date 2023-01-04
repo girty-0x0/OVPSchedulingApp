@@ -175,8 +175,8 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionAddCx(ActionEvent event) {
-
+    void onActionAddCx(ActionEvent event) throws IOException {
+        Utilities.loadView("CustomersForm.fxml", event);
     }
 
     @FXML
@@ -217,8 +217,19 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionModCx(ActionEvent event) {
+    void onActionModCx(ActionEvent event) throws IOException {
 
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("../view/CustomersForm.fxml"));
+        loader.load();
+
+        CustomersFormController cxForm = loader.getController();
+        cxForm.sendCustomer(cxTbl.getSelectionModel().getSelectedItem());
+
+        stage = (Stage) ((Button) event.getSource()).getScene().getWindow(); //stage is loaded with the Modify form in the next four lines; object's attributes are appropriately placed in their respective fields
+        Parent scene = loader.getRoot();
+        stage.setScene(new Scene(scene));
+        stage.showAndWait();
     }
 
     @FXML

@@ -18,6 +18,7 @@ public class DBFirstLvlDivisions {
         try {
             String sql = "SELECT * FROM first_level_divisions WHERE Country_ID=?";
             PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setInt(1, countryId);
             ResultSet result = ps.executeQuery();
 
             while (result.next()) {

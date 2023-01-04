@@ -60,4 +60,28 @@ public abstract class DBCustomers {
         }
         return null;
     }
+
+    public static int addCustomer(Customers customer){
+        int firstLvlDivisionId = customer.getFirstLvlDivisionId();
+        String name = customer.getName();
+        String address = customer.getAddress();
+        String postalCode = customer.getPostalCode();
+        String phone = customer.getPhone();
+
+        try {
+            String sql = "INSERT INTO customers (Customer_Name, Address, Postal_Code, Phone, Division_ID) VALUES (?, ?, ?, ?, ?)";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, address);
+            ps.setString(3, postalCode);
+            ps.setString(4, phone);
+
+            ps.setInt(5, firstLvlDivisionId);
+
+            return ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
 }
