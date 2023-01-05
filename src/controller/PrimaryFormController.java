@@ -184,7 +184,7 @@ public class PrimaryFormController implements Initializable {
         String msg, infoMsg;
 
         Appointments appt = apptTbl.getSelectionModel().getSelectedItem();
-        msg = "Are you sure you want to delete Appointment ID: " + appt.getId() + " Type: " + appt.getType();
+        msg = "Are you sure you want to delete Appointment ID: " + appt.getId() + " Type: " + appt.getType()+ "?";
         infoMsg = "Appointment ID: " + appt.getId() + " Type: " + appt.getType() + " has been deleted.";
         if(Utilities.confirmPopUp(msg)){
             if(DBAppointments.delAppointment(appt) > 0){
@@ -198,7 +198,20 @@ public class PrimaryFormController implements Initializable {
 
     @FXML
     void onActionDelCx(ActionEvent event) {
+        String msg, infoMsg;
 
+        Customers customer = cxTbl.getSelectionModel().getSelectedItem();
+        msg = "Are you sure you want to delete Customer ID: " + customer.getId() + " Name: " + customer.getName() + "? All associated appointments will also be deleted.";
+        infoMsg = "Customer ID: " + customer.getId() + " Name: " + customer.getName() + " and their appointments have been deleted.";
+        if(Utilities.confirmPopUp(msg)){
+            if(DBCustomers.delCustomer(customer) > 0){
+                cxTbl.setItems(DBCustomers.getAllCustomers());
+                if(radioBtnMonth.isSelected()) onActionMonthView(event);
+                else if(radioBtnWeek.isSelected()) onActionWeekView(event);
+                else onActionAllView(event);
+                Utilities.inform.alert(infoMsg);
+            }
+        }
     }
 
     @FXML

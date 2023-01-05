@@ -130,7 +130,6 @@ public class AppointmentsFormController implements Initializable {
     @FXML
     void onActionSave(ActionEvent event) throws IOException {
         //make sure to use id -1 when making a new Appointments object unless updating one
-        boolean hasError = false;
         boolean isMod = false;
         int startMin, startHr, endMin, endHr;
         int customerId, contactId, userId;

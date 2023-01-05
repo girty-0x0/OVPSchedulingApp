@@ -1,6 +1,7 @@
 package controller;
 
 import DBAccessors.DBCountries;
+import DBAccessors.DBCustomers;
 import DBAccessors.DBFirstLvlDivisions;
 import Model.Countries;
 import Model.Customers;
@@ -96,8 +97,58 @@ public class CustomersFormController implements Initializable {
     }
 
     @FXML
-    void onActionSave(ActionEvent event) {
+    void onActionSave(ActionEvent event) throws IOException {
+        boolean isMod = false;
+        int firstLvlDivisionId;
+        int id = -1;
+        //
+        String name, address, postalCode, phone;
 
+        if (titleLbl.getText().contains("Modify")) {
+            isMod = true;
+            id = Integer.parseInt(fieldId.getText());
+        }
+
+        for (int i = 0; i < 1; i++) {
+
+            if (comboCountry.getValue() == null) {
+                Utilities.warning.alert("Please choose a Country option.");
+                break;
+            } else if (comboDivision.getValue() == null) {
+                Utilities.warning.alert("Please choose an Administrative Division option.");
+                break;
+            } else if (fieldName.getText().isEmpty()) {
+                Utilities.warning.alert("Please type a Name for the Customer");
+                break;
+            } else if (fieldAddress.getText().isEmpty()) {
+                Utilities.warning.alert("Please type an Address for the Customer");
+                break;
+            } else if (fieldPostal.getText().isEmpty()) {
+                Utilities.warning.alert("Please type an Postal Code for the Customer");
+                break;
+            } else if (fieldPhone.getText().isEmpty()) {
+                Utilities.warning.alert("Please type an Phone Number for the Customer");
+                break;
+            }
+            name = fieldName.getText();
+            address = fieldAddress.getText();
+            postalCode = fieldPostal.getText();
+            phone = fieldPhone.getText();
+            firstLvlDivisionId = comboDivision.getValue().getId();
+
+            Customers customer = new Customers(id, name, address, postalCode, phone, firstLvlDivisionId);
+            if(isMod){
+                if(DBCustomers.updateCustomer(customer) < 1){
+                    Utilities.error.alert("There was an error updating this Customer.");
+                    break;
+                }
+            } else{
+                if(DBCustomers.addCustomer(customer) < 1){
+                    Utilities.error.alert("There was an error adding this Customer.");
+                    break;
+                }
+            }
+            Utilities.loadView("PrimaryForm.fxml", event);
+        }
     }
-
 }

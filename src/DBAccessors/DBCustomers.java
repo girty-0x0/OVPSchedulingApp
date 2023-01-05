@@ -84,4 +84,48 @@ public abstract class DBCustomers {
         }
         return 0;
     }
+
+    public static int updateCustomer(Customers customer){
+        int id = customer.getId();
+        int firstLvlDivisionId = customer.getFirstLvlDivisionId();
+        String name = customer.getName();
+        String address = customer.getAddress();
+        String postalCode = customer.getPostalCode();
+        String phone = customer.getPhone();
+
+        try {
+            String sql = "UPDATE customers SET Customer_Name=?, Address=?, Postal_Code=?, Phone=?, Division_ID=? WHERE Customer_ID=?";
+            PreparedStatement ps = JDBC.getConnection().prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setString(2, address);
+            ps.setString(3, postalCode);
+            ps.setString(4, phone);
+
+            ps.setInt(5, firstLvlDivisionId);
+            ps.setInt(6, id);
+
+            return ps.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int delCustomer(Customers customer){
+
+        try {
+            String sqlAppt = "DELETE FROM appointments WHERE Customer_ID=?";
+            PreparedStatement psAppt = JDBC.getConnection().prepareStatement(sqlAppt);
+            psAppt.setInt(1, customer.getId());
+
+            String sqlCx = "DELETE FROM customers WHERE Customer_ID=?";
+            PreparedStatement psCx = JDBC.getConnection().prepareStatement(sqlCx);
+            psCx.setInt(1, customer.getId());
+
+            return psAppt.executeUpdate() + psCx.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return 0;
+    }
 }
