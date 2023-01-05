@@ -279,8 +279,8 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionViewReports(ActionEvent event) {
-
+    void onActionViewReports(ActionEvent event) throws IOException {
+        Utilities.loadView("ReportsForm.fxml", event);
     }
 
     @FXML

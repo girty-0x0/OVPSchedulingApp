@@ -2,6 +2,8 @@ package helper;
 
 import DBAccessors.DBAppointments;
 import Model.Appointments;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,6 +18,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public abstract class Utilities {
@@ -121,6 +125,17 @@ public abstract class Utilities {
             }
         }
         return null; //null is returned when no conflicting appointments are made
+    }
+
+    public static ObservableList<String> getTypes(){
+        ObservableList<String> types = FXCollections.observableArrayList();
+
+        for(Appointments appt : DBAppointments.getAllAppointments()){
+            if(!(types.contains(appt.getType()))){
+                types.add(appt.getType());
+            }
+        }
+        return types;
     }
 
 }
