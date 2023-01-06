@@ -114,12 +114,13 @@ public class LoginFormController implements Initializable {
                 loader.load();
 
                 PrimaryFormController primaryFormController = loader.getController();
-                primaryFormController.sendUsr(user);
 
                 stage = (Stage) ((Button) event.getSource()).getScene().getWindow();
                 Parent scene = loader.getRoot();
                 stage.setScene(new Scene(scene));
-                stage.show(); //was show and wait
+                stage.show();
+
+                primaryFormController.sendUsr(user); //pops up after primaryform comes up
 
             } else{ //if no user was found or password is incorrect
                 pwVar.println("UNSUCCESSFUL LOGIN FOR USER: " + uname + " ON: " + utcZDT.toLocalDate() + " AT: " + utcZDT.toLocalTime() + " [UTC]");

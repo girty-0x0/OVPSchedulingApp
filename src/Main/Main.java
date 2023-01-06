@@ -1,16 +1,12 @@
 package Main;
 
-import DBAccessors.DBUsers;
 import helper.JDBC;
-import helper.TimeZConversion;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Locale;
 
 public class Main extends Application {
@@ -25,7 +21,7 @@ public class Main extends Application {
 
     public static void main(String[] args) {
         JDBC.openConnection();
-        //Locale.setDefault(new Locale("fr"));
+        Locale.setDefault(new Locale("fr"));
         launch(args);
         JDBC.closeConnection(); //closed after app is closed out
     }
