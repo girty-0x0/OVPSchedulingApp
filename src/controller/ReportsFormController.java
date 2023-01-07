@@ -201,12 +201,12 @@ public class ReportsFormController implements Initializable {
     }
 
     @FXML
-    void onActionExit(ActionEvent event) throws IOException {
+    public void onActionExit(ActionEvent event) throws IOException {
         Utilities.loadView("PrimaryForm.fxml", event);
     }
 
     @FXML
-    void onActionGetTotal(ActionEvent event) {
+    public void onActionGetTotal(ActionEvent event) {
         ObservableList<Appointments> allAppts = DBAppointments.getAllAppointments();
         ObservableList<Appointments> filteredAppts = FXCollections.observableArrayList();
         String type;
@@ -239,7 +239,7 @@ public class ReportsFormController implements Initializable {
     }
 
     @FXML
-    void onActionTbl1(ActionEvent event) {
+    public void onActionTbl1(ActionEvent event) {
         ObservableList<Appointments> allAppts = DBAppointments.getAllAppointments();
         ObservableList<Appointments> filteredAppts = FXCollections.observableArrayList();
 
@@ -256,7 +256,7 @@ public class ReportsFormController implements Initializable {
     }
 
     @FXML
-    void onActionTbl2(ActionEvent event) {
+    public void onActionTbl2(ActionEvent event) {
         ObservableList<Appointments> allAppts = DBAppointments.getAllAppointments();
         ObservableList<Appointments> filteredAppts = FXCollections.observableArrayList();
         LocalDateTime rightNow =  LocalDateTime.now();

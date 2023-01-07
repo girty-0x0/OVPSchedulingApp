@@ -123,12 +123,12 @@ public class AppointmentsFormController implements Initializable {
     }
 
     @FXML
-    void onActionCancel(ActionEvent event) throws IOException {
+    public void onActionCancel(ActionEvent event) throws IOException {
         Utilities.loadView("PrimaryForm.fxml", event);
     }
 
     @FXML
-    void onActionSave(ActionEvent event) throws IOException {
+    public void onActionSave(ActionEvent event) throws IOException {
         //make sure to use id -1 when making a new Appointments object unless updating one
         boolean isMod = false;
         int startMin, startHr, endMin, endHr;

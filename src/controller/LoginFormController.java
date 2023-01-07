@@ -21,7 +21,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.sql.Time;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -71,13 +70,13 @@ public class LoginFormController implements Initializable {
     }
 
     @FXML
-    void onActionCancel(ActionEvent event) {
+    public void onActionCancel(ActionEvent event) {
         JDBC.closeConnection();
         System.exit(0);
     }
 
     @FXML
-    void onActionLogin(ActionEvent event) throws IOException {
+    public void onActionLogin(ActionEvent event) throws IOException {
 
         String uname = usernameField.getText();
         String passwd = passwordField.getText();

@@ -20,44 +20,57 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/** Controller class for CustomersForm.fxml view. Controls all functions that occur inside the Modify/Add Customers form. */
 public class CustomersFormController implements Initializable {
 
+    /** Cancel FXML button. Exits current screen. */
     @FXML
     private Button cancelBtn;
 
+    /** An FXML ComboBox for Countries objects. Drop-down Menu for selecting Countries. */
     @FXML
     private ComboBox<Countries> comboCountry;
 
+    /** An FXML ComboBox  for FirstLvlDivisions objects. Drop-down Menu for selecting FirstLvlDivisions. */
     @FXML
     private ComboBox<FirstLvlDivisions> comboDivision;
 
+    /** Editable field for a Customer's address. FXML TextField. */
     @FXML
     private TextField fieldAddress;
 
+    /** Field for a Customer's ID. Disabled FXML TextField. */
     @FXML
     private TextField fieldId;
 
+    /** Editable field for a Customer's name. FXML TextField. */
     @FXML
     private TextField fieldName;
 
+    /** Editable field for a Customer's phone number. FXML TextField. */
     @FXML
     private TextField fieldPhone;
 
+    /** Editable field for a Customer's postal code. FXML TextField. */
     @FXML
     private TextField fieldPostal;
 
+    /** Save FXML button. Saves data for a customer and exits current screen. */
     @FXML
     private Button saveBtn;
 
+    /** Label for the Form's title. FXML Label that changes dynamically dependent on whether a user is modifying or adding customers. */
     @FXML
     private Label titleLbl;
 
+    /** Initializes the Customer's form and populates required FXML ComboBoxes. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleLbl.setText("Add Customer");
         comboCountry.setItems(DBCountries.getAllCountries());
     }
 
+    /** Sends customer from PrimaryForm.FXML to be modified in CustomersForm.FXML. */
     public void sendCustomer(Customers customer){
 
         titleLbl.setText("Modify Customer");
@@ -80,13 +93,15 @@ public class CustomersFormController implements Initializable {
         fieldPostal.setText(customer.getPostalCode());
     }
 
+    /** Discards all information in TextFields and reloads the PrimaryForm.FXML view. */
     @FXML
-    void onActionCancel(ActionEvent event) throws IOException {
+    public void onActionCancel(ActionEvent event) throws IOException {
         Utilities.loadView("PrimaryForm.fxml", event);
     }
 
+    /** Populates comboDivision with First Level Administrative Divisions when a Country is specified. */
     @FXML
-    void onActionCountry(ActionEvent event) {
+    public void onActionCountry(ActionEvent event) {
         Countries selectedCountry = comboCountry.getValue();
         comboDivision.setValue(null);
 
@@ -96,8 +111,9 @@ public class CustomersFormController implements Initializable {
         comboDivision.setPromptText("Select Division");
     }
 
+    /** Validates user input when adding or modifying a customer then updates the database or notifies a user of any errors. If the database is updated successfully, the PrimaryForm.FXML view is loaded.*/
     @FXML
-    void onActionSave(ActionEvent event) throws IOException {
+    public void onActionSave(ActionEvent event) throws IOException {
         boolean isMod = false;
         int firstLvlDivisionId;
         int id = -1;

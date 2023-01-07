@@ -170,17 +170,17 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionAddAppt(ActionEvent event) throws IOException {
+    public void onActionAddAppt(ActionEvent event) throws IOException {
         Utilities.loadView("AppointmentsForm.fxml", event);
     }
 
     @FXML
-    void onActionAddCx(ActionEvent event) throws IOException {
+    public void onActionAddCx(ActionEvent event) throws IOException {
         Utilities.loadView("CustomersForm.fxml", event);
     }
 
     @FXML
-    void onActionDelAppt(ActionEvent event) {
+    public void onActionDelAppt(ActionEvent event) {
         String msg, infoMsg;
 
         Appointments appt = apptTbl.getSelectionModel().getSelectedItem();
@@ -215,7 +215,7 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionModAppt(ActionEvent event) throws IOException {
+    public void onActionModAppt(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("../view/AppointmentsForm.fxml"));
         loader.load();
@@ -246,7 +246,7 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionMonthView(ActionEvent event) {
+    public void onActionMonthView(ActionEvent event) {
         ObservableList<Appointments> apptView = FXCollections.observableArrayList();
         ObservableList<Appointments> allAppts;
         allAppts = DBAppointments.getAllAppointments();
@@ -260,7 +260,7 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionWeekView(ActionEvent event) {
+    public void onActionWeekView(ActionEvent event) {
         ObservableList<Appointments> apptView = FXCollections.observableArrayList();
         ObservableList<Appointments> allAppts;
         allAppts = DBAppointments.getAllAppointments();
@@ -274,17 +274,17 @@ public class PrimaryFormController implements Initializable {
     }
 
     @FXML
-    void onActionAllView(ActionEvent event) {
+    public void onActionAllView(ActionEvent event) {
         apptTbl.setItems(DBAppointments.getAllAppointments());
     }
 
     @FXML
-    void onActionViewReports(ActionEvent event) throws IOException {
+    public void onActionViewReports(ActionEvent event) throws IOException {
         Utilities.loadView("ReportsForm.fxml", event);
     }
 
     @FXML
-    void onActionLogout(ActionEvent event) throws IOException {
+    public void onActionLogout(ActionEvent event) throws IOException {
         Utilities.loadView("LoginForm.fxml", event);
     }
 }
