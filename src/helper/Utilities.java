@@ -20,7 +20,7 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
-/** Class with various miscellaneous utilities used throughout the program. Lambas would be found here. */
+/** Class with various miscellaneous utilities used throughout the program (Lambdas would be found here). */
 public abstract class Utilities {
 
     /** Stage instance variable to hold the primary stage when transferring data across forms. */
