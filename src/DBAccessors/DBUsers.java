@@ -9,8 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** Class to interact with MySQL database and make queries related to the Users model class. */
 public abstract class DBUsers {
 
+    /** Method to retrieve all Users from the MySQL database.
+     * @return ObservableList of Users objects representing users stored in the database */
     public static ObservableList<Users> getAllUsers() {
         ObservableList<Users> users = FXCollections.observableArrayList();
 
@@ -34,6 +37,9 @@ public abstract class DBUsers {
         return users;
     }
 
+    /** Method to retrieve one User from the MySQL database.
+     * @param username the user's username
+     * @return Users object with a matching username */
     public static Users getUser(String username) {
 
         try {
@@ -55,6 +61,9 @@ public abstract class DBUsers {
         return null; //returns null if no user matches
     }
 
+    /** Method to retrieve one User from the MySQL database.
+     * @param userId the user's ID
+     * @return Users object with a matching userId */
     public static Users getUser(int userId) {
 
         try {

@@ -12,9 +12,11 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.*;
 
+/** Class to interact with MySQL database by making updates and queries related to the Appointments model class. */
 public abstract class DBAppointments {
-    private static ZoneId utcZone = ZoneId.of("UTC");
 
+    /** Method to retrieve all Appointments from the MySQL database.
+     * @return ObservableList of Appointments objects representing appointments stored in the database */
     public static ObservableList<Appointments> getAllAppointments() {
         ObservableList<Appointments> appointments = FXCollections.observableArrayList();
 
@@ -47,6 +49,9 @@ public abstract class DBAppointments {
         return appointments;
     }
 
+    /** Method to retrieve one Appointment from the MySQL database.
+     * @param appointmentId the appointment's id
+     * @return Appointments object with a matching id */
     public static Appointments getAppointment(int appointmentId) {
         try {
             String sql = "SELECT * FROM appointments WHERE Appointment_ID=?";
@@ -79,6 +84,9 @@ public abstract class DBAppointments {
         return null;
     }
 
+    /** Method to add one Appointment to the MySQL database.
+     * @param appt an Appointments object with the new appointment's details
+     * @return number of rows added; 0 if no appointments were stored successfully */
     public static int addAppointment (Appointments appt){
         int customerId = appt.getCustomerId();
         int userId = appt.getUserId();
@@ -115,6 +123,9 @@ public abstract class DBAppointments {
         return 0;
     }
 
+    /** Method to modify an existing Appointment in the MySQL database.
+     * @param appt an Appointments object with the appointment's new details
+     * @return number of rows modified; 0 if no appointments were updated successfully */
     public static int modAppointment (Appointments appt){
         int id = appt.getId();
         int customerId = appt.getCustomerId();
@@ -154,6 +165,9 @@ public abstract class DBAppointments {
         return 0;
     }
 
+    /** Method to delete an existing Appointment from the MySQL database.
+     * @param appt an Appointments object with the details of the appointment to be deleted
+     * @return number of rows modified; 0 if no appointments were deleted successfully */
     public static int delAppointment(Appointments appt){
         try {
             String sql = "DELETE FROM appointments WHERE Appointment_ID=?";

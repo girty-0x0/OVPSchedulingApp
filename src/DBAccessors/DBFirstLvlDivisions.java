@@ -9,8 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** Class to interact with MySQL database and make queries related to the FirstLvlDivisions model class. */
 public abstract class DBFirstLvlDivisions {
 
+    /** Method to retrieve all First Level Divisions from the MySQL database.
+     * @return ObservableList of FirstLvlDivisions objects representing First Level Administrative Divisions stored in the database */
     public static ObservableList<FirstLvlDivisions> getCountryDivisions(int countryId) {
 
         ObservableList<FirstLvlDivisions> divisions = FXCollections.observableArrayList();

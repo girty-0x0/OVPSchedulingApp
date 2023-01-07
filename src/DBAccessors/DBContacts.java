@@ -9,8 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** Class to interact with MySQL database and make queries related to the Contacts model class. */
 public abstract class DBContacts {
 
+    /** Method to retrieve all contacts from the MySQL database.
+     * @return ObservableList of Contacts objects representing contacts stored in the database */
     public static ObservableList<Contacts> getAllContacts() {
 
         ObservableList<Contacts> contacts = FXCollections.observableArrayList();
@@ -36,6 +39,9 @@ public abstract class DBContacts {
         return contacts;
     }
 
+    /** Method to retrieve a single contact from the MySQL database.
+     * @param contactId the desired contact's id
+     * @return Contacts object with a matching contactId stored in the database */
     public static Contacts getContact(int contactId){
         try {
             String sql = "SELECT * FROM contacts WHERE Contact_ID=?";

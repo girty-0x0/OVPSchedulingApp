@@ -9,8 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** Class to interact with MySQL database and make queries related to the Countries model class. */
 public abstract class DBCountries {
 
+    /** Method to retrieve all countries from the MySQL database.
+     * @return ObservableList of Countries objects representing countries stored in the database */
     public static ObservableList<Countries> getAllCountries(){
         ObservableList<Countries> countries = FXCollections.observableArrayList();
 
@@ -32,6 +35,9 @@ public abstract class DBCountries {
         return countries;
     }
 
+    /** Method to retrieve a single Country from the MySQL database.
+     * @param divisionID the division ID for a First Level Administrative Division within the desired country
+     * @return Countries object with a matching divisionId stored in the database */
     public static Countries getCountry(int divisionID){
 
         try{

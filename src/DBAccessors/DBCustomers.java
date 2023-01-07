@@ -9,8 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/** Class to interact with MySQL database by making updates and queries related to the Customers model class. */
 public abstract class DBCustomers {
 
+    /** Method to retrieve all Customers from the MySQL database.
+     * @return ObservableList of Customers objects representing customers stored in the database */
     public static ObservableList<Customers> getAllCustomers() {
         ObservableList<Customers> customers = FXCollections.observableArrayList();
 
@@ -36,6 +39,9 @@ public abstract class DBCustomers {
         return customers;
     }
 
+    /** Method to retrieve one Customer from the MySQL database.
+     * @param customerId the customer's id
+     * @return Customers object with a matching id */
     public static Customers getCustomer(int customerId) {
 
         try {
@@ -61,6 +67,9 @@ public abstract class DBCustomers {
         return null;
     }
 
+    /** Method to add one Customers to the MySQL database.
+     * @param customer a Customers object with the new customer's details
+     * @return number of rows added; 0 if no customers were stored successfully */
     public static int addCustomer(Customers customer){
         int firstLvlDivisionId = customer.getFirstLvlDivisionId();
         String name = customer.getName();
@@ -85,6 +94,9 @@ public abstract class DBCustomers {
         return 0;
     }
 
+    /** Method to modify an existing Customer in the MySQL database.
+     * @param customer a Customers object with the customer's new details
+     * @return number of rows modified; 0 if no customers were updated successfully */
     public static int updateCustomer(Customers customer){
         int id = customer.getId();
         int firstLvlDivisionId = customer.getFirstLvlDivisionId();
@@ -111,6 +123,9 @@ public abstract class DBCustomers {
         return 0;
     }
 
+    /** Method to delete an existing Customers from the MySQL database.
+     * @param customer a Customers object with the details of the customer to be deleted
+     * @return number of rows modified; 0 if no customers were deleted successfully */
     public static int delCustomer(Customers customer){
 
         try {
