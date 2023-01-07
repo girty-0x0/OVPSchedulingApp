@@ -46,6 +46,7 @@ public abstract class DBAppointments {
         }
         return appointments;
     }
+
     public static Appointments getAppointment(int appointmentId) {
         try {
             String sql = "SELECT * FROM appointments WHERE Appointment_ID=?";
@@ -127,6 +128,7 @@ public abstract class DBAppointments {
         LocalDate day = appt.getDay();
         LocalTime startTime = appt.getStart();
         LocalTime endTime = appt.getEnd();
+
         //convert from LocalTime to DateTime
         LocalDateTime startDT = LocalDateTime.of(day, startTime);
         LocalDateTime endDT = LocalDateTime.of(day, endTime);

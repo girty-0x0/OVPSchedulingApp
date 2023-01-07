@@ -25,59 +25,80 @@ import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.ResourceBundle;
 
+/** Controller class for AppointmentsForm.fxml view. Controls all functions that occur inside the Modify/Add Appointments form. */
 public class AppointmentsFormController implements Initializable {
+    /** ObservableList array that holds all customers stored in the database. */
     private static ObservableList<Customers> allCustomers = DBCustomers.getAllCustomers();
+    /** ObservableList array that holds all contacts stored in the database. */
     private static ObservableList<Contacts> allContacts = DBContacts.getAllContacts();
+    /** ObservableList array that holds all users stored in the database. */
     private static ObservableList<Users> allUsers = DBUsers.getAllUsers();
 
+    /** Cancel FXML button. Exits current screen. */
     @FXML
     private Button cancelBtn;
 
+    /** An FXML ComboBox for Contacts objects. Drop-down Menu for selecting related Contacts. */
     @FXML
     private ComboBox<Contacts> comboContactId;
 
+    /** An FXML ComboBox for Customers objects. Drop-down Menu for selecting related Customers. */
     @FXML
     private ComboBox<Customers> comboCustomerId;
 
+    /** An FXML ComboBox for the ending hour. Drop-down Menu to select the hour an appointment ends. */
     @FXML
     private ComboBox<Integer> comboEndHr;
 
+    /** An FXML ComboBox for the ending minute. Drop-down Menu to select the minute an appointment ends. */
     @FXML
     private ComboBox<Integer> comboEndMin;
 
+    /** An FXML ComboBox for the starting hour. Drop-down Menu to select the hour an appointment starts. */
     @FXML
     private ComboBox<Integer> comboStartHr;
 
+    /** An FXML ComboBox for the starting minute. Drop-down Menu to select the minute an appointment starts. */
     @FXML
     private ComboBox<Integer> comboStartMin;
 
+    /** An FXML ComboBox for Users objects. Drop-down Menu for selecting related Users. */
     @FXML
     private ComboBox<Users> comboUserId;
 
+    /** An FXML DatePicker object to pick an appointment's scheduled date. */
     @FXML
     private DatePicker fieldDate;
 
+    /** Editable field for an appointment's description. FXML TextField. */
     @FXML
     private TextField fieldDescription;
 
+    /** Field for an appointment's ID. Disabled FXML TextField. */
     @FXML
     private TextField fieldId;
 
+    /** Label for the Form's title. FXML Label that changes dynamically dependent on whether a user is modifying or adding appointments. */
     @FXML
     private Label titleLbl;
 
+    /** Editable field for an appointment's location. FXML TextField. */
     @FXML
     private TextField fieldLocation;
 
+    /** Editable field for an appointment's title. FXML TextField. */
     @FXML
     private TextField fieldTitle;
 
+    /** Editable field for an appointment's type. FXML TextField. */
     @FXML
     private TextField fieldType;
 
+    /** Save FXML button. Saves data for an appointment and exits current screen. */
     @FXML
     private Button saveBtn;
 
+    /** Initializes the Appointment's form and populates required FXML ComboBoxes. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         titleLbl.setText("Add Appointment");
@@ -103,6 +124,7 @@ public class AppointmentsFormController implements Initializable {
         comboUserId.setItems(allUsers);
     }
 
+    /** Sends a selected appointment from PrimaryForm.FXML to be modified in AppointmentsForm.FXML. */
     public void sendAppointment(Appointments appt){
         titleLbl.setText("Modify Appointment");
 
@@ -122,11 +144,13 @@ public class AppointmentsFormController implements Initializable {
 
     }
 
+    /** Discards all information in TextFields and reloads the PrimaryForm.FXML view. */
     @FXML
     public void onActionCancel(ActionEvent event) throws IOException {
         Utilities.loadView("PrimaryForm.fxml", event);
     }
 
+    /** Validates user input when adding or modifying an appointment then updates the database or notifies a user of any errors. If the database is updated successfully, the PrimaryForm.FXML view is loaded.*/
     @FXML
     public void onActionSave(ActionEvent event) throws IOException {
         //make sure to use id -1 when making a new Appointments object unless updating one

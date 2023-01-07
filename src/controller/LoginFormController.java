@@ -25,36 +25,49 @@ import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+/** Controller class for LoginForm.fxml view. Controls all functions that occur inside the Login form after application is loaded. */
 public class LoginFormController implements Initializable {
-    private static boolean isFrench;
-    private static Stage stage; //sets the primary stage
 
+    /** Boolean instance variable to represent if a user's language settings are set to french. */
+    private static boolean isFrench;
+    /** Stage instance variable to hold the primary stage when transferring data across forms. */
+    private static Stage stage; //sets the primary stage
+    /** Resource bundle to handle translations to french. */
     private static ResourceBundle rb = ResourceBundle.getBundle("helper/loginForm", Locale.FRENCH);
 
+    /** Cancel FXML button. Exits application when pressed. */
     @FXML
     private Button cancelBtn;
 
+    /** Login FXML button. Starts authentication and authorization process to determine if a user's credential are valid. */
     @FXML
     private Button loginBtn;
 
+    /** Editable field for a user's password. FXML PasswordField. */
     @FXML
     private PasswordField passwordField;
 
+    /** Label to show where a user must input their password. FXML Label that changes dynamically dependent the user's system language. */
     @FXML
     private Label passwordLbl;
 
+    /** Label to show a user's time zone. FXML Label that changes dynamically dependent the user's time zone. */
     @FXML
     private Label timezoneLbl;
 
+    /** Label with the login screen's title. FXML Label that changes dynamically dependent the user's system language. */
     @FXML
     private Label titleLbl;
 
+    /** Editable field for a user's username. FXML TextField. */
     @FXML
     private TextField usernameField;
 
+    /** Label to show where a user must input their username. FXML Label that changes dynamically dependent the user's system language. */
     @FXML
     private Label usernameLbl;
 
+    /** Initializes the login form and changes any labels and text depending on a user's system language and time zone. */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         timezoneLbl.setText(TimeZConversion.getLocalZone().toString());
@@ -69,12 +82,14 @@ public class LoginFormController implements Initializable {
         }
     }
 
+    /** Exits application and closes the database connection. */
     @FXML
     public void onActionCancel(ActionEvent event) {
         JDBC.closeConnection();
         System.exit(0);
     }
 
+    /** Authenticates user credentials by making queries to a database. User is notified if their credentials are invalid or are missing a username/password. Writes successful and unsuccessful logins to login_activity.txt inside the root folder. */
     @FXML
     public void onActionLogin(ActionEvent event) throws IOException {
 
@@ -131,5 +146,4 @@ public class LoginFormController implements Initializable {
             }
         }
     }
-
 }

@@ -2,7 +2,6 @@ package DBAccessors;
 
 import Model.Countries;
 import helper.JDBC;
-import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class DBCountries {
+public abstract class DBCountries {
 
     public static ObservableList<Countries> getAllCountries(){
         ObservableList<Countries> countries = FXCollections.observableArrayList();
@@ -32,6 +31,7 @@ public class DBCountries {
         }
         return countries;
     }
+
     public static Countries getCountry(int divisionID){
 
         try{

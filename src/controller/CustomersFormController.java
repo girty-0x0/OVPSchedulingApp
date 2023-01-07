@@ -70,7 +70,7 @@ public class CustomersFormController implements Initializable {
         comboCountry.setItems(DBCountries.getAllCountries());
     }
 
-    /** Sends customer from PrimaryForm.FXML to be modified in CustomersForm.FXML. */
+    /** Sends a selected customer from PrimaryForm.FXML to be modified in CustomersForm.FXML. */
     public void sendCustomer(Customers customer){
 
         titleLbl.setText("Modify Customer");
