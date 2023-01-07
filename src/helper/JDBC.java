@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/** Class used to connect with the MySQL database. Thanks for this WGU C195 resources page! */
 public abstract class JDBC {
     private static final String protocol = "jdbc";
     private static final String vendor = ":mysql:";
@@ -15,6 +16,7 @@ public abstract class JDBC {
     private static String password = "Passw0rd!"; // Password
     public static Connection connection;  // Connection Interface
 
+    /** Method to open the connection with the SQL database. */
     public static Connection openConnection()
     {
         try {
@@ -30,10 +32,13 @@ public abstract class JDBC {
         return connection;
     }
 
+    /** Method to retrieve the connection established with an SQL database.
+     * @return the Connection object with an established connection. */
     public static Connection getConnection(){
         return connection; //prevents need to close and open connections often
     }
 
+    /** Method to close the connection with the SQL database. */
     public static void closeConnection() {
         try {
             connection.close();
